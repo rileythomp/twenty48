@@ -116,15 +116,15 @@ public class Main extends Application {
 
         Text instructionsTitle = Util.CreateTextNode(
                 "      Instructions",
-                FONT_NAME, FontWeight.BOLD, Color.rgb(119, 110, 101), FONT_SIZE,
-                240, 200
+                FONT_NAME, FontWeight.BOLD, Color.rgb(119, 110, 101), (int)(FONT_SIZE*0.75),
+                270, 150
         );
 
         Text commands = Util.CreateTextNode(
                 "Enter - Start Game\n\n" +
                         "q - Quit Game\n\n",
                 FONT_NAME, FontWeight.NORMAL, Color.rgb(119, 110, 101), FONT_SIZE/2,
-                240, 250
+                240, 200
         );
 
         root.getChildren().add(gameTitle);

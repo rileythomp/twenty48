@@ -8,10 +8,13 @@ import java.io.FileNotFoundException;
 public class Game {
     public int[][] board;
 
+    public int score;
+
     private GameView view;
 
     public Game(Stage stage) throws FileNotFoundException {
         board = new int[4][4];
+        score = 0;
         view = new GameView(stage, this);
 
         for (int y = 0; y < 4; ++y) {
@@ -67,6 +70,7 @@ public class Game {
                 view.displayGame();
             }
         }
+        checkGameOver();
     }
 
     private boolean moveLeft() {
@@ -86,6 +90,7 @@ public class Game {
                 if (curx > 0 && board[y][curx-1] != 0 && board[y][curx-1] == board[y][curx]) {
                     didMove = true;
                     board[y][curx-1] = 2*board[y][curx];
+                    score += board[y][curx-1];
                     board[y][curx] = 0;
                 }
             }
@@ -110,6 +115,7 @@ public class Game {
                 if (curx < 3 && board[y][curx+1] != 0 && board[y][curx+1] == board[y][curx]) {
                     didMove = true;
                     board[y][curx+1] = 2*board[y][curx];
+                    score += board[y][curx+1];
                     board[y][curx] = 0;
                 }
             }
@@ -134,6 +140,7 @@ public class Game {
                 if (cury > 0 && board[cury-1][x] != 0 && board[cury-1][x] == board[cury][x]) {
                     didMove = true;
                     board[cury-1][x] = 2*board[cury][x];
+                    score += board[cury-1][x];
                     board[cury][x] = 0;
                 }
             }
@@ -158,11 +165,27 @@ public class Game {
                 if (cury < 3 && board[cury+1][x] != 0 && board[cury+1][x] == board[cury][x]) {
                     didMove = true;
                     board[cury+1][x] = 2*board[cury][x];
+                    score += board[cury+1][x];
                     board[cury][x] = 0;
                 }
             }
         }
         return didMove;
+    }
+
+    private void checkGameOver() {
+        boolean isFull = true;
+        for (int y = 0; y < 4; ++y) {
+            for (int x = 0; x < 4; ++x) {
+                if (board[y][x] == 0) {
+                    isFull = false;
+                }
+            }
+        }
+
+        if (isFull) {
+            view.QuitGame(score);
+        }
     }
 
     private void addNew() {
@@ -175,20 +198,6 @@ public class Game {
                 break;
             }
 
-        }
-
-        boolean isFull = true;
-        for (int y = 0; y < 4; ++y) {
-            for (int x = 0; x < 4; ++x) {
-                if (board[y][x] == 0) {
-                    isFull = false;
-                }
-            }
-        }
-
-        if (isFull) {
-            System.out.println("No where to go");
-            System.exit(1);
         }
     }
 }
